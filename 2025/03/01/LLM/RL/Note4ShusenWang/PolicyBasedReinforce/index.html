@@ -1,17 +1,11 @@
-
-
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
-  
-
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Policy Based Reinforce [ Rayen&#39;s Stories ]</title>
-
-  <link rel="icon" href="/img/library.svg">
-
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     <meta name="author" content="Rayen Tian">
 
@@ -19,332 +13,307 @@
 
 
 
-  <link rel="alternate" href="/atom.xml " title="Rayen&#39;s Stories" type="application/atom+xml">
+<title>Policy Based Reinforce | Rayen&#39;s Stories</title>
 
 
-  
-    <link rel="stylesheet" href="/css/main.css">
-  
 
-<meta name="generator" content="Hexo 7.2.0"></head>
-  <body data-theme="light" class="notransition">
-    <script>
-      const body = document.body;
-      const data = body.getAttribute("data-theme");
-      const initTheme = (state) => {
-        if (state === "dark") {
-          body.setAttribute("data-theme", "dark");
-        } else if (state === "light") {
-          body.removeAttribute("data-theme");
-        } else {
-          localStorage.setItem("theme", data);
-        }
-      };
-   
-      initTheme(localStorage.getItem("theme"));
-      
-      setTimeout(() => body.classList.remove("notransition"), 75);
-    </script>
-  <div class="navbar" role="navigation">
-    <nav class="menu">
-      <input type="checkbox" id="menu-trigger" class="menu-trigger" />
-      <label for="menu-trigger">
-        <span class="menu-icon">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 512 512"
-          >
-            <path
-              d="M64,384H448V341.33H64Zm0-106.67H448V234.67H64ZM64,128v42.67H448V128Z"
-            />
-          </svg>
-        </span>
-      </label>
-      <a id="mode">
-        <svg
-          class="mode-sunny"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 512 512"
-        >
-          <title>LIGHT</title>
-          <line
-            x1="256"
-            y1="48"
-            x2="256"
-            y2="96"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="256"
-            y1="416"
-            x2="256"
-            y2="464"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="403.08"
-            y1="108.92"
-            x2="369.14"
-            y2="142.86"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="142.86"
-            y1="369.14"
-            x2="108.92"
-            y2="403.08"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="464"
-            y1="256"
-            x2="416"
-            y2="256"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="96"
-            y1="256"
-            x2="48"
-            y2="256"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="403.08"
-            y1="403.08"
-            x2="369.14"
-            y2="369.14"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="142.86"
-            y1="142.86"
-            x2="108.92"
-            y2="108.92"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <circle
-            cx="256"
-            cy="256"
-            r="80"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-        </svg>
-        <svg
-          class="mode-moon"
-          xmlns="http://www.w3.org/2000/svg"
-          width="24"
-          height="24"
-          viewBox="0 0 512 512"
-        >
-          <title>DARK</title>
-          <line
-            x1="256"
-            y1="48"
-            x2="256"
-            y2="96"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="256"
-            y1="416"
-            x2="256"
-            y2="464"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="403.08"
-            y1="108.92"
-            x2="369.14"
-            y2="142.86"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="142.86"
-            y1="369.14"
-            x2="108.92"
-            y2="403.08"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="464"
-            y1="256"
-            x2="416"
-            y2="256"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="96"
-            y1="256"
-            x2="48"
-            y2="256"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="403.08"
-            y1="403.08"
-            x2="369.14"
-            y2="369.14"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <line
-            x1="142.86"
-            y1="142.86"
-            x2="108.92"
-            y2="108.92"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-          <circle
-            cx="256"
-            cy="256"
-            r="80"
-            style="stroke-linecap:round;stroke-miterlimit:10;stroke-width:32px"
-          />
-        </svg>
-      </a>
-      <div class="trigger">
-        <div class="trigger-container">
-          
-            
-            
-            
-            
-            
-            
-            <a class="menu-link " href="/"> Home</a>
-          
-            
-            
-            
-            
-            
-            
-            <a class="menu-link " href="/about/"> About</a>
-          
-            
-            
-            
-            
-            
-            
-            <a class="menu-link " href="/archives/"> Archives</a>
-          
-            
-            
-            
-            
-            
-            
-            <a class="menu-link " href="/tags/"> Tags</a>
-          
-        </div>
-      </div>
-    </nav>
-  </div>
-  <div class="wrapper post">
-  <main class="page-content" aria-label="Content">
-     <!--
- * @Classname: 
- * @Description: 
- * @version: 1.0
- * @Author: Gardenia.TianR
- * @Date: 2025-03-01 14:39:04
- * @LastEditors: Gardenia.TianR
- * @LastEditTime: 2025-03-01 14:39:08
- * @FilePath: \RayenTian.github.io\themes\Klise\layout\mathjax.ejs
--->
+    <link rel="icon" href="/image/library.svg">
 
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-      MathJax.Hub.Queue(function() {
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+            <!-- MathJax配置，可通过单美元符号书写行内公式等 -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+    "HTML-CSS": {
+        preferredFont: "TeX",
+        availableFonts: ["STIX","TeX"],
+        linebreaks: { automatic:true },
+        EqnChunk: (MathJax.Hub.Browser.isMobile ? 10 : 50)
+    },
+    tex2jax: {
+        inlineMath: [ ["$", "$"], ["\\(","\\)"] ],
+        processEscapes: true,
+        ignoreClass: "tex2jax_ignore|dno",
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    },
+    TeX: {
+        equationNumbers: { autoNumber: "AMS" },
+        noUndefined: { attributes: { mathcolor: "red", mathbackground: "#FFEEEE", mathsize: "90%" } },
+        Macros: { href: "{}" }
+    },
+    messageStyle: "none"
+    });
+</script>
+<!-- 给MathJax元素添加has-jax class -->
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
         var all = MathJax.Hub.getAllJax(), i;
         for(i=0; i < all.length; i += 1) {
             all[i].SourceElement().parentNode.className += ' has-jax';
         }
-      });
-    </script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-    
- 
-    <header class="header">
-      
-      <div class="tags">
-        <a
-          href="/tags/LLM/"
-          class="tag"
-          ># LLM</a
-        ><a
-          href="/tags/RL/"
-          class="tag"
-          ># RL</a
-        ><a
-          href="/tags/ShusenWang/"
-          class="tag"
-          ># ShusenWang</a
-        >
-      </div>
-      
-      <h1 class="header-title" itemprop="headline">Policy Based Reinforce</h1>
-      <div class="post-meta">
-        <time>3月 01, 2025</time>
-        <span itemprop="author">
-          <span itemprop="name">Rayen Tian</span>
-        </span>
-      </div>
-    </header>
+    });
+</script>
+<!-- 通过连接CDN加载MathJax的js代码 -->
+<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
 
-    <div class="page-content"><h1 id="Policy-Based-Reinforce"><a href="#Policy-Based-Reinforce" class="headerlink" title="Policy Based Reinforce"></a>Policy Based Reinforce</h1><h2 id="Policy-Network-pi-a-s-theta"><a href="#Policy-Network-pi-a-s-theta" class="headerlink" title="Policy Network $\pi(a|s;\theta)$"></a>Policy Network $\pi(a|s;\theta)$</h2><p>Policy Network: Use a neural net to approximate $\pi(a|s)$. </p>
+
+        
+    
+
+
+<meta name="generator" content="Hexo 7.2.0"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Tawanna</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Tawanna</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/categories">Categories</a>
+                
+                    <a class="menu-item" href="/tags">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">Policy Based Reinforce</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">Rayen Tian</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">三月 1, 2025&nbsp;&nbsp;14:34:25</a>
+                        </span>
+                    
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h1>Policy Based Reinforce</h1>
+<h2 id="Policy-Network-pi-a-s-theta"><a class="header-anchor" href="#Policy-Network-pi-a-s-theta">¶</a>Policy Network $\pi(a|s;\theta)$</h2>
+<p>Policy Network: Use a neural net to approximate $\pi(a|s)$.</p>
 <ul>
 <li>Use policy network $\pi(a|s;\mathbf{\theta})$ to approximate $\pi(a|s)$.</li>
 <li>$\theta$: trainable parameters of the neural net.</li>
-<li>$\Sigma_{a\in A} \pi(a|s;\theta) &#x3D; 1$</li>
+<li>$\Sigma_{a\in A} \pi(a|s;\theta) = 1$</li>
 </ul>
-<h2 id="Policy-Based-Reinforcement-Learning"><a href="#Policy-Based-Reinforcement-Learning" class="headerlink" title="Policy-Based Reinforcement Learning"></a>Policy-Based Reinforcement Learning</h2><p>&#x3D;&#x3D;State-value function&#x3D;&#x3D;: how good the situation is in state $s$</p>
+<h2 id="Policy-Based-Reinforcement-Learning"><a class="header-anchor" href="#Policy-Based-Reinforcement-Learning">¶</a>Policy-Based Reinforcement Learning</h2>
+<p>==State-value function==: how good the situation is in state $s$</p>
 <ul>
-<li><p>$V\pi(s_t) &#x3D; \mathbb{E}_A[Q_\pi(s_t,A)] &#x3D; \Sigma_a \pi(a|s_t) \cdot Q_\pi(s_t,a).$</p>
+<li>
+<p>$V\pi(s_t) = \mathbb{E}<em>A[Q</em>\pi(s_t,A)] = \Sigma_a \pi(a|s_t) \cdot Q_\pi(s_t,a).$</p>
 </li>
-<li><p>$V\pi(s_t) &#x3D; \mathbb{E}_A[Q_\pi(s_t,A)] &#x3D; \int \pi (a|s_t)\cdot Q_\pi(s_t,a) ,da.$</p>
+<li>
+<p>$V\pi(s_t) = \mathbb{E}<em>A[Q</em>\pi(s_t,A)] = \int \pi (a|s_t)\cdot Q_\pi(s_t,a) ,da.$</p>
 </li>
 </ul>
 <p>Approximate state-value function:</p>
 <ul>
 <li>Approximate policy function $\pi(a|s_t)$ by policy network $\pi(a|s_t;\theta)$.</li>
-<li>Appproximate value function $V_\pi(s_t)$ by: $V\pi(s_t) &#x3D; \Sigma_a \pi(a|s_t;\theta) \cdot Q_\pi(s_t,a).$</li>
+<li>Appproximate value function $V_\pi(s_t)$ by: $V\pi(s_t) = \Sigma_a \pi(a|s_t;\theta) \cdot Q_\pi(s_t,a).$</li>
 </ul>
-<p>$$<br>V(s;\theta) &#x3D; \Sigma_a \pi(a|s;\theta) \cdot Q_\pi(s,a).<br>$$</p>
-<p>&#x3D;&#x3D;Policy-Based learning&#x3D;&#x3D;: Learn $\theta$ that maximizes $J(\theta) &#x3D; \mathbb{E}_S[V(S;\theta)]$. </p>
-<h2 id="Policy-gradient-ascent"><a href="#Policy-gradient-ascent" class="headerlink" title="Policy gradient ascent"></a>Policy gradient ascent</h2><ul>
+<p>$$<br>
+V(s;\theta) = \Sigma_a \pi(a|s;\theta) \cdot Q_\pi(s,a).<br>
+$$</p>
+<p>==Policy-Based learning==: Learn $\theta$ that maximizes $J(\theta) = \mathbb{E}_S[V(S;\theta)]$.</p>
+<h2 id="Policy-gradient-ascent"><a class="header-anchor" href="#Policy-gradient-ascent">¶</a>Policy gradient ascent</h2>
+<ul>
 <li>Observe state s.</li>
 <li>Update policy by: $\theta \leftarrow \theta + \beta \cdot \frac{\partial V(s;\theta)}{\partial \theta}$</li>
 </ul>
-<h3 id="Policy-Gradient"><a href="#Policy-Gradient" class="headerlink" title="Policy Gradient"></a>Policy Gradient</h3><p>$$<br>\begin{align}<br>\frac{\partial V(s;\theta)}{\partial \theta} &amp;&#x3D; \frac{ \Sigma_a \partial \pi(a|s;\theta) \cdot Q_\pi(s,a) }{\partial \theta} \<br>&amp;&#x3D;\Sigma_a  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a) \quad (Pretend \  Q_\pi \  is \  independent \  of \  \theta)\<br>&amp;&#x3D; \Sigma_a \pi(a|s;\theta) \cdot \frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q_\pi(s,a) \<br>&amp;&#x3D; \mathbb{E}_A[\frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q_\pi(s,A) ]<br>\end{align}<br>$$</p>
-<h3 id="Calculate-Policy-Gradient-for-Discrete-Actions"><a href="#Calculate-Policy-Gradient-for-Discrete-Actions" class="headerlink" title="Calculate Policy Gradient for Discrete Actions"></a>Calculate Policy Gradient for Discrete Actions</h3><ol>
-<li><p>If the actions are &#x3D;&#x3D;discrete&#x3D;&#x3D;, e.g. action space $\mathcal{A}$ &#x3D; {“left”,”right”,”up”},…</p>
-<p>Use $\frac{\partial V(s;\theta)}{\partial \theta} &#x3D; \Sigma_a  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a)$ </p>
+<h3 id="Policy-Gradient"><a class="header-anchor" href="#Policy-Gradient">¶</a>Policy Gradient</h3>
+<p>$$<br>
+\begin{align}<br>
+\frac{\partial V(s;\theta)}{\partial \theta} &amp;= \frac{ \Sigma_a \partial \pi(a|s;\theta) \cdot Q_\pi(s,a) }{\partial \theta} \<br>
+&amp;=\Sigma_a  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a) \quad (Pretend \  Q_\pi \  is \  independent \  of \  \theta)\<br>
+&amp;= \Sigma_a \pi(a|s;\theta) \cdot \frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q_\pi(s,a) \<br>
+&amp;= \mathbb{E}<em>A[\frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q</em>\pi(s,A) ]<br>
+\end{align}<br>
+$$</p>
+<h3 id="Calculate-Policy-Gradient-for-Discrete-Actions"><a class="header-anchor" href="#Calculate-Policy-Gradient-for-Discrete-Actions">¶</a>Calculate Policy Gradient for Discrete Actions</h3>
 <ol>
-<li>Calculate $f(a,\theta) &#x3D;  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a) $ for every action $a \in \mathcal{A}$. </li>
-<li>Policy gradient: $\frac{\partial V(s;\theta)}{\partial \theta} &#x3D; f(left,\theta) + f(right,\theta) + f(up,\theta)$</li>
+<li>
+<p>If the actions are ==discrete==, e.g. action space $\mathcal{A}$ = {“left”,“right”,“up”},…</p>
+<p>Use $\frac{\partial V(s;\theta)}{\partial \theta} = \Sigma_a  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a)$</p>
+<ol>
+<li>Calculate $f(a,\theta) =  \frac{ \partial \pi(a|s;\theta) }{\partial \theta}\cdot Q_\pi(s,a) $ for every action $a \in \mathcal{A}$.</li>
+<li>Policy gradient: $\frac{\partial V(s;\theta)}{\partial \theta} = f(left,\theta) + f(right,\theta) + f(up,\theta)$</li>
 </ol>
 </li>
-<li><p>If the actions are &#x3D;&#x3D;continuous&#x3D;&#x3D;, e.g. action space $\mathcal{A}$ &#x3D; [0,1]. </p>
-<p>Use $\frac{\partial V(s;\theta)}{\partial \theta} &#x3D; \mathbb{E}_{A\sim\pi(\cdot|s;\theta)}[\frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q_\pi(s,A) ]$  &#x3D;&#x3D;It’s difficult to calculate the $\int$ of $\pi$. So we use Monte Carlo Approximation.&#x3D;&#x3D;</p>
+<li>
+<p>If the actions are ==continuous==, e.g. action space $\mathcal{A}$ = [0,1].</p>
+<p>Use $\frac{\partial V(s;\theta)}{\partial \theta} = \mathbb{E}<em>{A\sim\pi(\cdot|s;\theta)}[\frac{ \partial log \pi(a|s;\theta) }{\partial \theta} \cdot Q</em>\pi(s,A) ]$  ==It’s difficult to calculate the $\int$ of $\pi$. So we use Monte Carlo Approximation.==</p>
 <ol>
-<li>Randomly sample an action $\hat{a}$ according to the PDF $\pi(\cdot | s;\theta)$ </li>
-<li>Calculate $g(\hat{a},\theta) &#x3D; \frac{ \partial log \pi(\hat{a}|s;\theta) }{\partial \theta} \cdot Q_\pi(s,\hat{a})$.</li>
+<li>Randomly sample an action $\hat{a}$ according to the PDF $\pi(\cdot | s;\theta)$</li>
+<li>Calculate $g(\hat{a},\theta) = \frac{ \partial log \pi(\hat{a}|s;\theta) }{\partial \theta} \cdot Q_\pi(s,\hat{a})$.</li>
 </ol>
 <blockquote>
 <p>[!NOTE]</p>
-<p>Obviously, $\mathbb{E}_A[g(A,\theta)] &#x3D; \frac{\partial V(s;\theta)}{\partial \theta}$.</p>
+<p>Obviously, $\mathbb{E}_A[g(A,\theta)] = \frac{\partial V(s;\theta)}{\partial \theta}$.</p>
 <p>$g(\hat{a},\theta)$ is an unbiased estimate of $\frac{\partial V(s;\theta)}{\partial \theta}$.</p>
 </blockquote>
 <ol start="3">
@@ -352,74 +321,109 @@
 </ol>
 <blockquote>
 <p>[!IMPORTANT]</p>
-<p>This approach also works for &#x3D;&#x3D;discrete&#x3D;&#x3D; actions.</p>
+<p>This approach also works for ==discrete== actions.</p>
 </blockquote>
 </li>
 </ol>
-<h2 id="Algorithm"><a href="#Algorithm" class="headerlink" title="Algorithm"></a>Algorithm</h2><ol>
+<h2 id="Algorithm"><a class="header-anchor" href="#Algorithm">¶</a>Algorithm</h2>
+<ol>
 <li>Observe the state $s_t$.</li>
-<li>Randomly sample action $a_t$ according to $\pi(\cdot | s_t;\theta_t)$ </li>
+<li>Randomly sample action $a_t$ according to $\pi(\cdot | s_t;\theta_t)$</li>
 <li>Compute $q_t \approx Q_\pi(s_t,a_t)$ (some estimate).</li>
-<li>Differentiate policy network: $\mathbf{d}<em>{\theta,t} &#x3D; \frac{\partial log \ \pi(a_t | s_t, \theta)}{\partial \theta} |</em>{\theta &#x3D; \theta_t}$</li>
-<li>(Approximate) policy gradient: $\mathbf{g}(\hat{a},\theta) &#x3D; q_t \cdot \mathbf{d_{\theta,t}}$ .</li>
-<li>Update policy network: $\theta_{t+1} &#x3D; \theta_t + \beta \cdot \mathbf{g}(a_t, \theta_t)$.</li>
+<li>Differentiate policy network: $\mathbf{d}<em>{\theta,t} = \frac{\partial log \ \pi(a_t | s_t, \theta)}{\partial \theta} |</em>{\theta = \theta_t}$</li>
+<li>(Approximate) policy gradient: $\mathbf{g}(\hat{a},\theta) = q_t \cdot \mathbf{d_{\theta,t}}$ .</li>
+<li>Update policy network: $\theta_{t+1} = \theta_t + \beta \cdot \mathbf{g}(a_t, \theta_t)$.</li>
 </ol>
-<h3 id="Compuet-q-t-approx-Q-pi-s-t-a-t"><a href="#Compuet-q-t-approx-Q-pi-s-t-a-t" class="headerlink" title="Compuet  $q_t \approx Q_\pi(s_t,a_t)$"></a>Compuet  $q_t \approx Q_\pi(s_t,a_t)$</h3><ol>
-<li><p>Option 1: REINFORCE</p>
+<h3 id="Compuet-q-t-approx-Q-pi-s-t-a-t"><a class="header-anchor" href="#Compuet-q-t-approx-Q-pi-s-t-a-t">¶</a>Compuet  $q_t \approx Q_\pi(s_t,a_t)$</h3>
+<ol>
+<li>
+<p>Option 1: REINFORCE</p>
 <ol>
 <li>Play the game to the end and generate the trajectory: $s_1,a_1,r_1,s_2,a_2,r_2,…,s_T,a_T,r_T$.</li>
-<li>Compute the discounted return $u_t &#x3D; \Sigma_{k &#x3D; t}^T \gamma^{k-t}r_k$, for all t.</li>
-<li>Since $Q_\pi(s_t,a_t) &#x3D; \mathbb{E}[U_t]$, we can use $u_t$ to approximate $Q_\pi(s_t,a_t)$.</li>
-<li>$\rightarrow$ Use $q_t &#x3D; u_t$</li>
+<li>Compute the discounted return $u_t = \Sigma_{k = t}^T \gamma^{k-t}r_k$, for all t.</li>
+<li>Since $Q_\pi(s_t,a_t) = \mathbb{E}[U_t]$, we can use $u_t$ to approximate $Q_\pi(s_t,a_t)$.</li>
+<li>$\rightarrow$ Use $q_t = u_t$</li>
 </ol>
 </li>
-<li><p>Option 2: Approximate $Q_\pi$ using a neural network.</p>
+<li>
+<p>Option 2: Approximate $Q_\pi$ using a neural network.</p>
 <p>This lead to the actor-critic method.</p>
 </li>
 </ol>
-</div>
-    <nav class="post-nav">
-    
-    <a class="post-nav-item post-nav-prev" href="/2025/03/01/LLM/RL/Note4ShusenWang/ValueBasedReinforce/">
-      <div class="nav-arrow">&lt;&nbsp;NEWER</div>
-      <span class="post-title">Value Based Reinforce</span>
-    </a>
-    
-    
-    <a class="post-nav-item post-nav-next" href="/2025/03/01/LLM/RL/Note4ShusenWang/BasicConcept/">
-      <div class="nav-arrow">OLDER&nbsp;&gt;</div>
-      <span class="post-title">Basic Concept</span>
-    </a>
-    
-  </nav>
-  </main>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>Rayen Tian</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://rayentian.github.io/2025/03/01/LLM/RL/Note4ShusenWang/PolicyBasedReinforce/">https://rayentian.github.io/2025/03/01/LLM/RL/Note4ShusenWang/PolicyBasedReinforce/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>I just want something simpler...</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tags/LLM/"># LLM</a>
+                    
+                        <a href="/tags/RL/"># RL</a>
+                    
+                        <a href="/tags/ShusenWang/"># ShusenWang</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2025/03/01/LLM/RL/Note4ShusenWang/ValueBasedReinforce/">Value Based Reinforce</a>
+            
+            
+            <a class="next" rel="next" href="/2025/03/01/LLM/RL/Note4ShusenWang/BasicConcept/">Basic Concept</a>
+            
+        </section>
+
+
+    </article>
 </div>
 
-  <footer class="footer">
-    <small class="footer_copyright">
-      <div id="bottom-inner">
-        © 2021 Site by Rayen Tian using
-        <a target="_blank" rel="noopener" href="http://hexo.io">hexo blog framework</a>.
-        <br>
-        <p> Theme is <a target="_blank" rel="noopener" href="https://github.com/dewjohn/hexo-theme-klise">Klise</a></p>
-      </div>
-    </small>
-  </footer>
-  
-  
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© Rayen Tian | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
 
-    
-      <script src="/js/main.js"></script>
-    
-  
-  <script>
-    window.FPConfig = {
-      delay: 0,
-      ignoreKeywords: [],
-      maxRPS: 3,
-      hoverDelay: 50,
-    };
-  </script>
-  <script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+    </div>
 </body>
+
 </html>
