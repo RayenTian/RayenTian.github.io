@@ -96,7 +96,7 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: Klise
+theme: Chic
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
@@ -104,3 +104,56 @@ deploy:
   type: git
   repo: git@github.com:RayenTian/RayenTian.github.io.git
   branch: main
+  
+
+
+math:
+  engine: 'mathjax'
+  mathjax:
+    src: custom_mathjax_source
+
+markdown:
+  preset: "default"
+  renderer: markdown-it
+  config:
+    html: true
+    xhtmlOut: false
+    langPrefix: "language-"
+    breaks: true
+    linkify: true
+    typographer: true
+    quotes: "“”‘’"
+  enable_rules:
+  disable_rules:
+  plugins:
+    - '@renbaoshuo/markdown-it-katex'
+    - markdown-it-abbr
+    - markdown-it-cjk-breaks
+    - markdown-it-deflist
+    - markdown-it-emoji
+    - markdown-it-footnote
+    - markdown-it-ins
+    - markdown-it-mark
+    - markdown-it-sub
+    - markdown-it-sup
+    - markdown-it-checkbox
+    - markdown-it-imsize
+    - markdown-it-expandable
+    - name: markdown-it-container
+      options: note
+    - name: markdown-it-container
+      options: tips
+    - name: markdown-it-container
+      options: important
+    - name: markdown-it-container
+      options: danger
+
+anchors:
+    level: 2
+    collisionSuffix: ""
+    permalink: false
+    permalinkClass: "header-anchor"
+    permalinkSide: "left"
+    permalinkSymbol: "¶"
+    case: 0
+    separator: "-"
