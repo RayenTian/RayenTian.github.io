@@ -8,7 +8,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Test [ Rayen&#39;s Stories ]</title>
+<title>Value Based Reinforce [ Rayen&#39;s Stories ]</title>
 
   <link rel="icon" href="/img/library.svg">
 
@@ -245,38 +245,98 @@
       </div>
     </nav>
   </div>
-  
-<div class="wrapper post">
+  <div class="wrapper post">
   <main class="page-content" aria-label="Content">
-      <header class="header">
-        
-          <div class="tags">
-            <a href="/tags/LLM/" class="tag"># LLM</a>
-          </div>
-        
-        <h1 class="header-title" itemprop="headline">Test</h1>
-          <div class="post-meta">
-            <time>3月 01, 2025</time>
-            <span itemprop="author">
-              <span itemprop="name">Rayen Tian</span>
-            </span>
-          </div>
-        </header>
+     <!--
+ * @Classname: 
+ * @Description: 
+ * @version: 1.0
+ * @Author: Gardenia.TianR
+ * @Date: 2025-03-01 14:39:04
+ * @LastEditors: Gardenia.TianR
+ * @LastEditTime: 2025-03-01 14:39:08
+ * @FilePath: \RayenTian.github.io\themes\Klise\layout\mathjax.ejs
+-->
 
-          <div class="page-content"><p>s</p>
-<p>d</p>
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for(i=0; i < all.length; i += 1) {
+            all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/mathjax@2.7.8/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+ 
+    <header class="header">
+      
+      <div class="tags">
+        <a
+          href="/tags/LLM/"
+          class="tag"
+          ># LLM</a
+        ><a
+          href="/tags/RL/"
+          class="tag"
+          ># RL</a
+        ><a
+          href="/tags/ShusenWang/"
+          class="tag"
+          ># ShusenWang</a
+        >
+      </div>
+      
+      <h1 class="header-title" itemprop="headline">Value Based Reinforce</h1>
+      <div class="post-meta">
+        <time>3月 01, 2025</time>
+        <span itemprop="author">
+          <span itemprop="name">Rayen Tian</span>
+        </span>
+      </div>
+    </header>
+
+    <div class="page-content"><h1 id="Value-Based-Reinforce"><a href="#Value-Based-Reinforce" class="headerlink" title="Value Based Reinforce"></a>Value Based Reinforce</h1><h2 id="Deep-Q-Network-DQN"><a href="#Deep-Q-Network-DQN" class="headerlink" title="Deep Q Network(DQN)"></a>Deep Q Network(DQN)</h2><p>Use neural network $Q(s,a;\mathbf{w})$ to approximate the Q Function $Q^*(s,a)$. </p>
+<h2 id="Temporal-Difference-TD-Learning"><a href="#Temporal-Difference-TD-Learning" class="headerlink" title="Temporal Difference (TD) Learning"></a>Temporal Difference (TD) Learning</h2><p>$$<br>\begin{align}<br>U_t &amp;&#x3D; R_t + \gamma R_{t+1} +\gamma^2 R_{t+2} + \gamma^3 R_{t+3}….. \<br>    &amp;&#x3D; R_t + \gamma(R_{t+1} +\gamma R_{t+2} + \gamma^2 R_{t+3}…..) \<br>    &amp;&#x3D; R_t + \gamma U_{t+1}  \ \</p>
+<p>Q(s_t,a_t;\mathbf{w}) &amp; \approx  \mathbb{E}(U_t) \<br>                &amp; \approx \mathbb{E}(R_t + \gamma U_{t+1}) \<br>                &amp; \approx \mathbb{E}(R_t + \gamma Q(S_{t+1},A_{t+1};\mathbf{w})) \<br>                &amp; \approx  r_t + \gamma \cdot Q(s_{t+1},a_{t+1};\mathbf{w})  \</p>
+<p>\end{align}<br>$$</p>
+<ul>
+<li><p>Prediction: $Q(s_t,a_t;\mathbf{w}_t)$</p>
+</li>
+<li><p>TD target: </p>
+<p>$y_t &#x3D; r_t + \gamma Q(s_{t+1},a_{t+1};\mathbf{w}<em>t) &#x3D; r_t + \gamma \  \mathop{max}\limits_a Q(s</em>{t+1},a;\mathbf{w}_t)$</p>
+</li>
+<li><p>Loss: $L_t &#x3D; \frac{1}{2} [Q(s_t,a_t;\mathbf{w}) - y_t]^2$.</p>
+</li>
+<li><p>Gradient descent: $\mathbf{w}_{t+1} &#x3D; \mathbf{w}_t - \alpha \cdot \frac{\partial L_t}{\partial \mathbf{w}} |_\mathbf{w &#x3D; w_t}$</p>
+</li>
+</ul>
+<h3 id="Algorithm-one-iteration-of-TD-learning"><a href="#Algorithm-one-iteration-of-TD-learning" class="headerlink" title="Algorithm: one iteration of TD learning"></a>Algorithm: one iteration of TD learning</h3><ol>
+<li>Observe state $S_t &#x3D; s_t$ and action $A_t &#x3D; a_t$</li>
+<li>Predict the value: $q_t &#x3D; Q(s_t,a_t;\mathbf{w}_t)$.</li>
+<li>Differentiate the value network: $\mathbf{d}_t &#x3D; \frac{\partial Q(s_t,a_t;\mathbf{w})}{\partial \mathbf{w}} |_\mathbf{w &#x3D; w_t}$ </li>
+<li>Environment provides new state $s_{t+1}$ and reward $r_t$.</li>
+<li>Compute TD target: $y_t &#x3D; r_t + \gamma \cdot \mathop{max}\limits_a Q(s_{t+1},a;\mathbf{W_t})$. </li>
+<li>Gradient descent: $\mathbf{w}_{t+1} &#x3D; \mathbf{w}_t - \alpha \cdot (q_t - y_t) \cdot \mathbf{d}_t$</li>
+</ol>
 </div>
-          <nav class="post-nav">
+    <nav class="post-nav">
     
     
-    <a class="post-nav-item post-nav-next" href="/2024/06/29/hello-world/">
+    <a class="post-nav-item post-nav-next" href="/2025/03/01/LLM/RL/Note4ShusenWang/PolicyBasedReinforce/">
       <div class="nav-arrow">OLDER&nbsp;&gt;</div>
-      <span class="post-title">Hello World</span>
+      <span class="post-title">Policy Based Reinforce</span>
     </a>
     
   </nav>
-
-   </main>
+  </main>
 </div>
 
   <footer class="footer">

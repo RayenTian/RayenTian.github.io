@@ -8,7 +8,7 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hello World [ Rayen&#39;s Stories ]</title>
+<title>Basic Concept [ Rayen&#39;s Stories ]</title>
 
   <link rel="icon" href="/img/library.svg">
 
@@ -278,36 +278,114 @@
  
     <header class="header">
       
-      <h1 class="header-title" itemprop="headline">Hello World</h1>
+      <div class="tags">
+        <a
+          href="/tags/LLM/"
+          class="tag"
+          ># LLM</a
+        ><a
+          href="/tags/RL/"
+          class="tag"
+          ># RL</a
+        ><a
+          href="/tags/ShusenWang/"
+          class="tag"
+          ># ShusenWang</a
+        >
+      </div>
+      
+      <h1 class="header-title" itemprop="headline">Basic Concept</h1>
       <div class="post-meta">
-        <time>6月 29, 2024</time>
+        <time>3月 01, 2025</time>
         <span itemprop="author">
           <span itemprop="name">Rayen Tian</span>
         </span>
       </div>
     </header>
 
-    <div class="page-content"><p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+    <div class="page-content"><h1 id="Basic-concept"><a href="#Basic-concept" class="headerlink" title="Basic concept"></a>Basic concept</h1><h2 id="Preknowledge"><a href="#Preknowledge" class="headerlink" title="Preknowledge"></a>Preknowledge</h2><ol>
+<li><p>Random Variable： a variable whose values depend on outcomes of a random event.</p>
+</li>
+<li><p>Probability Density Function(PDF):概率密度函数</p>
+<p>e.g.</p>
+<script type="math/tex; mode=display">
+Gaussian distribution
+p(x) = \frac{1}{\sqrt{2\pi \sigma^2}}exp(-\frac{(x - \mu)^2}{2\sigma^2})</script></li>
+<li><p>Expectation</p>
+</li>
+<li><p>Random Sampling</p>
+</li>
+</ol>
+<h2 id="Terminologies"><a href="#Terminologies" class="headerlink" title="Terminologies"></a>Terminologies</h2><ol>
+<li>state $s$</li>
+<li>action $a$ </li>
+<li>policy $\pi$: is a PDF. $\pi (s,a) \mapsto [0,1]: \pi(a|s) = \mathbb{P}(A = a|S = s)$</li>
+<li>reward $R$  </li>
+<li>state transition: old state -&gt;(action) new state: $p(s’| s,a) = \mathbb{P}(S’ = s’ | S = s, A = a)$. Only the environment know, the user can not know it.</li>
+</ol>
+<h3 id="Randomness-in-Reinforcement-Learning"><a href="#Randomness-in-Reinforcement-Learning" class="headerlink" title="Randomness in Reinforcement Learning"></a>Randomness in Reinforcement Learning</h3><ol>
+<li><p>Action have randomness($\pi$ sample)</p>
+</li>
+<li><p>State transition have randomness($p$ sample)</p>
+</li>
+</ol>
+<h3 id="Rewards-and-Return"><a href="#Rewards-and-Return" class="headerlink" title="Rewards and Return"></a>Rewards and Return</h3><ol>
+<li><p>Return (aka cumulative future reward)</p>
+<p>$U<em>t = R_t + R</em>{t+1} + R_{t+2} + R{t+3}…..$</p>
+</li>
+<li><p>Discount return (aka cumulative discounted future reward)</p>
+<ul>
+<li>$\gamma$: discount rate</li>
+<li><p>$U<em>t = R_t + \gamma R</em>{t+1} +\gamma^2 R_{t+2} + \gamma^3 R{t+3}…..$</p>
+</li>
+<li><p>At time step $t$, the return $U_t$ is ==random==.</p>
+<ul>
+<li><p>Action can be random $\mathbb{P}(A = a | S = s) = \pi(a|s)$</p>
+</li>
+<li><p>New state can be random $\mathbb{P}(S’ = s’ | S = s, A = a) = p(s’ | s,a).$</p>
+</li>
+<li>For any $i \geq t$, the reward $R<em>i$ depends on $S_i$ and $A_i$. Thus, given $s_t$, the return $U_t$ depends on the random variables: $A_t, A</em>{t+1}, A<em>{t+2}…$ and $S</em>{t+1}, S_{t+2}…$ </li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Action-Value Function $Q(s,a)$ for policy $\pi$: how good it is for an agent to pick action a while being in state $s$</p>
+<p>$Q_\pi(s_t,a_t) = \mathbb{E}[U_t|S_t = s_t, A_t = a_t]$ </p>
+</li>
+<li><p>Optimal action-value function</p>
+<p>$Q^*(s<em>t,a_t) = \mathop{max}\limits</em>{\pi} Q_\pi(s_t,a_t).$ </p>
+</li>
+<li><p>State-value function: how good the situation is in state $s$</p>
+<p>$V\pi(s<em>t) = \mathbb{E}_A[Q</em>\pi(s<em>t,A)] = \Sigma_a \pi(a|s_t) \cdot Q</em>\pi(s_t,a).$</p>
+<p>$V\pi(s<em>t) = \mathbb{E}_A[Q</em>\pi(s<em>t,A)] = \int \pi (a|s_t)\cdot Q</em>\pi(s_t,a) \,da.$ </p>
+</li>
+<li><p>$\mathbb{E}<em>S[V</em>\pi(S)]$ evaluates how good the pollicy $\pi$ is.</p>
+</li>
+</ol>
+<h2 id="How-does-AI-control-the-agent"><a href="#How-does-AI-control-the-agent" class="headerlink" title="How does AI control the agent?"></a>How does AI control the agent?</h2><p>Upon observe the state $s_t$:</p>
+<ol>
+<li>Suppose we have a good policy $\pi(a|s)$.<ul>
+<li>random sampling: $a_t \sim \pi(\cdot | s_t)$</li>
+</ul>
+</li>
+<li>Suppose we know the optimal action-value function $Q^*(s,a)$.<ul>
+<li>choose the action that maximizes the value: $a_t = argmax_a Q^*(s_t,a).$</li>
+</ul>
+</li>
+</ol>
 </div>
     <nav class="post-nav">
     
-    <a class="post-nav-item post-nav-prev" href="/2025/03/01/LLM/MoELearning/">
+    <a class="post-nav-item post-nav-prev" href="/2025/03/01/LLM/RL/Note4ShusenWang/PolicyBasedReinforce/">
       <div class="nav-arrow">&lt;&nbsp;NEWER</div>
-      <span class="post-title">MoE Learning</span>
+      <span class="post-title">Policy Based Reinforce</span>
     </a>
     
+    
+    <a class="post-nav-item post-nav-next" href="/2025/03/01/LLM/MoELearning/">
+      <div class="nav-arrow">OLDER&nbsp;&gt;</div>
+      <span class="post-title">MoE Learning</span>
+    </a>
     
   </nav>
   </main>
