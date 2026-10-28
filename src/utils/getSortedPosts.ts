@@ -7,8 +7,12 @@ import { postFilter } from "./postFilter";
  *
  * Note: filtering respects drafts and scheduled posts via `postFilter()`.
  */
-export function getSortedPosts(posts: CollectionEntry<"posts">[]) {
+export function getSortedPosts(
+  posts: CollectionEntry<"posts">[],
+  locale: string = "en"
+) {
   return posts
+    .filter(post => post.data.lang === locale)
     .filter(postFilter)
     .sort(
       (a, b) =>

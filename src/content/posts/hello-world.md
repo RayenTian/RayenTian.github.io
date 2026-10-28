@@ -1,5 +1,6 @@
 ---
 title: Hello, New Blog
+translationKey: hello-world
 pubDatetime: 2026-10-27T12:00:00+08:00
 description: The writing workflow of this blog, with math and code examples, and how to publish standalone HTML pages.
 tags:

@@ -25,13 +25,25 @@ const t = useTranslations(locale);
 }
 
 <script>
+  import { stripBase } from "@/utils/withBase";
   function updateGoBackUrl() {
     const backButton: HTMLAnchorElement | null =
       document.querySelector("#back-button");
 
     const backUrl = sessionStorage.getItem("backUrl");
 
-    if (backUrl && backButton) {
+    const storedPath = backUrl
+      ? new URL(backUrl, window.location.origin)
+      : null;
+    const storedIsChinese =
+      storedPath && /^\/zh(?:\/|$)/.test(stripBase(storedPath.pathname));
+    const isChinese = document.documentElement.lang === "zh";
+    if (
+      backUrl &&
+      backButton &&
+      storedPath?.origin === window.location.origin &&
+      Boolean(storedIsChinese) === isChinese
+    ) {
       backButton.href = backUrl;
     }
   }

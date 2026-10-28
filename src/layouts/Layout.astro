@@ -5,6 +5,7 @@ import { getRelativeLocaleUrl } from "astro:i18n";
 import { resolveDefaultOgImagePath } from "@/utils/resolveDefaultOgImagePath";
 import { getAssetPath } from "@/utils/withBase";
 import config from "@/config";
+import { languageNavigation } from "@/i18n/navigation";
 import "katex/dist/katex.min.css";
 import "@/styles/global.css";
 
@@ -16,10 +17,12 @@ type Props = {
 };
 
 const { site } = config;
+const locale = Astro.currentLocale ?? site.lang;
+const { alternates } = await languageNavigation(Astro.url.pathname, locale);
 
 const {
   title = site.title,
-  description = site.description,
+  description = locale === "zh" ? "技术积累与思考。" : site.description,
   ogImage = resolveDefaultOgImagePath(config),
   canonicalURL = new URL(Astro.url.pathname, Astro.site).href,
 } = Astro.props;
@@ -43,6 +46,15 @@ const rssHref = getRelativeLocaleUrl(
     <link rel="icon" type="image/svg+xml" href={getAssetPath("favicon.svg")} />
     <link rel="icon" href={getAssetPath("favicon.ico")} />
     <link rel="canonical" href={canonicalURL} />
+    {
+      alternates.map(({ lang, href }) => (
+        <link
+          rel="alternate"
+          hreflang={lang}
+          href={new URL(href, Astro.site)}
+        />
+      ))
+    }
     <meta name="generator" content={Astro.generator} />
 
     <!-- Font -->

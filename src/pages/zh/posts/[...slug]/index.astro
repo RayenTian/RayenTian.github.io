@@ -1,0 +1,9 @@
+---
+import Page from "@/pages/posts/[...slug]/index.astro";
+import { articlePaths } from "@/utils/localizedRoutes";
+export async function getStaticPaths() {
+  return articlePaths("zh");
+}
+---
+
+<Page {...Astro.props} />
